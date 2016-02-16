@@ -25,7 +25,7 @@ var (
 
 func listenAndServe(ip, secret string) {
 	// Launch server
-	server := &dns.Server{Addr: ip + ":1053", Net: "udp"}
+	server := &dns.Server{Addr: ip + ":53", Net: "udp"}
 	if secret != "" {
 		server.TsigSecret = map[string]string{"urbl.": secret}
 	}
