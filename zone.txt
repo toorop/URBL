@@ -1,0 +1,6 @@
+server 127.0.0.1 1053
+debug yes
+zone urbl.io
+update add com.test.bl.urbl.io 120 A 127.0.0.1
+show
+send

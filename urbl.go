@@ -23,9 +23,9 @@ var (
 	DB *bolt.DB
 )
 
-func listenAndServe(ip, secret string) {
+func listenAndServe(ip, port, secret string) {
 	// Launch server
-	server := &dns.Server{Addr: ip + ":53", Net: "udp"}
+	server := &dns.Server{Addr: ip + ":" + port, Net: "udp"}
 	if secret != "" {
 		server.TsigSecret = map[string]string{"urbl.": secret}
 	}
@@ -180,6 +180,7 @@ func main() {
 
 	// IP
 	ip := flag.String("ip", "127.0.0.1", "ip to listen to")
+	port := flag.String("port", "53", "port to listen to ")
 	tsigSecret := flag.String("secret", "", "")
 	boltPath := flag.String("data", "", "path to bolt DB")
 
@@ -209,7 +210,7 @@ func main() {
 	dns.HandleFunc(".", dnsHandler)
 
 	// launch server
-	go listenAndServe(*ip, *tsigSecret)
+	go listenAndServe(*ip, *port, *tsigSecret)
 	sig := make(chan os.Signal)
 	signal.Notify(sig, syscall.SIGINT, syscall.SIGTERM)
 end:
